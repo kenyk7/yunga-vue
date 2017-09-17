@@ -1,33 +1,16 @@
 <template>
-  <div id="app">
-    <main>
-      <img src="@assets/logo.png" alt="Vue.js PWA">
-      <router-view></router-view>
-    </main>
+  <main>
     <div class="preview-img-list">
       <img class="preview-img-item" width="200" v-for="(item, index) in items"
       :src="item.src" @click="$photoswipe.open(index, items)">
     </div>
-    <p>
-      <button class="button is-primary"
-        @click="isImageModalActive = true">
-        Launch image modal
-      </button>
-    </p>
-    <b-modal :active.sync="isImageModalActive" :width="960">
-      <p class="image is-16by9">
-        <img src="https://unsplash.it/1500/800">
-      </p>
-    </b-modal>
-  </div>
+  </main>
 </template>
-
 <script>
 export default {
-  name: 'app',
+  name: 'test',
   data () {
     return {
-      isImageModalActive: false,
       items: [{
         src: 'https://unsplash.it/2000/1500',
         w: 2000,
@@ -50,7 +33,6 @@ export default {
 
 main {
   text-align: center;
-  margin-top: 20px;
 }
 
 .preview-img-list {
@@ -61,7 +43,7 @@ main {
 }
 .preview-img-item {
   margin: 5px;
-  max-width: 100px;
-  max-height: 100px;
+  max-width: 300px;
+  max-height: 300px;
 }
 </style>
