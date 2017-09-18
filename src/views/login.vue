@@ -61,6 +61,7 @@
 <script>
 import Firebase from 'firebase'
 
+const auth = Firebase.auth()
 const provider = new Firebase.auth.GoogleAuthProvider()
 
 export default {
@@ -75,7 +76,7 @@ export default {
   },
   created () {
     const _self = this
-    Firebase.auth().onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
         setTimeout(function () {
           _self.$router.push({name: 'Home'})
@@ -86,14 +87,14 @@ export default {
   methods: {
     // register
     register () {
-      Firebase.auth().createUserWithEmailAndPassword(this.auth.email, this.auth.password).catch(function (error) {
+      auth.createUserWithEmailAndPassword(this.auth.email, this.auth.password).catch(function (error) {
         console.log(error)
       })
     },
     // auth
     login () {
       const _self = this
-      Firebase.auth().signInWithEmailAndPassword(this.auth.email, this.auth.password).then((res) => {
+      auth.signInWithEmailAndPassword(this.auth.email, this.auth.password).then((res) => {
         const redirect = _self.$route.query.redirect
         _self.$router.push({path: redirect})
       }).catch(function (error) {
@@ -101,7 +102,7 @@ export default {
       })
     },
     loginWithGoogle () {
-      Firebase.auth().signInWithPopup(provider).then(function (res) {
+      auth.signInWithPopup(provider).then(function (res) {
         console.log(res)
       }).catch(function (error) {
         console.log(error)

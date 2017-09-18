@@ -28,11 +28,12 @@
         </div>
       </div>
     </transition-group> -->
+    <pre>{{photos}}</pre>
   </main>
 </template>
 <script>
-// import Firebase from 'firebase'
-// import api from '../api'
+import api from '../api'
+const refPhotos = api.child('photos')
 
 export default {
   name: 'home',
@@ -52,6 +53,14 @@ export default {
         h: 1500
       }]
     }
+  },
+  computed: {
+    photos () {
+      return this.$store.state.photos
+    }
+  },
+  created () {
+    this.$store.dispatch('setPhotosRef', refPhotos)
   }
 }
 </script>

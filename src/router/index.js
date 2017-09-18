@@ -28,7 +28,7 @@ const router = new Router({
       name: 'Submit',
       component: Submit,
       meta: {
-        requiresAuth: true
+        auth: true
       }
     },
     {
@@ -47,7 +47,7 @@ const router = new Router({
 
 // http://router.vuejs.org/en/advanced/meta.html
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.auth)) {
     if (!Firebase.auth().currentUser) {
       next({
         path: '/login',
