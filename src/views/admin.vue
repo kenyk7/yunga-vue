@@ -12,7 +12,7 @@
             <div class="card-footer-item" >
               <b-dropdown v-model="navigation">
                 <a slot="trigger">
-                    <b-icon icon="edit"></b-icon>
+                  <b-icon icon="edit"></b-icon>
                 </a>
                 <b-dropdown-item v-model="navigation" custom paddingless>
                     <form action="">
@@ -55,7 +55,7 @@ import Firebase from 'firebase'
 import api from '../api'
 const photosRef = api.child('photos')
 const storageRef = Firebase.storage().ref()
-const lastPhotos = photosRef.orderByKey().limitToLast(12)
+const lastPhotos = photosRef.orderByKey().limitToLast(16)
 
 export default {
   name: 'admin',
@@ -77,13 +77,19 @@ export default {
       return tags.split(', ')
     },
     deletePhoto (item) {
-      const desertRef = storageRef.child('uploads/photos/' + item['.key'])
-      desertRef.delete().then(function () {
-        photosRef.child(item['.key']).remove()
-        console.log('delete success')
-      }).catch(function (error) {
-        // Uh-oh, an error occurred!
-        console.log('delete error', error)
+      const _self = this
+      this.$dialog.confirm({
+        message: '¿Estás seguro que deseas eliminar?',
+        onConfirm: () => {
+          const desertRef = storageRef.child('uploads/photos/' + item['.key'])
+          desertRef.delete().then(function () {
+            photosRef.child(item['.key']).remove()
+            _self.$toast.open('Foto eliminada')
+          }).catch(function (error) {
+            // Uh-oh, an error occurred!
+            console.log('delete error', error)
+          })
+        }
       })
     },
     updateTags (item, val) {

@@ -1,6 +1,6 @@
 <template>
   <div class="page-auth">
-    <form class="form-auth">
+    <form class="form-auth" @submit.prevent="login">
       <h2 class="title is-4 has-text-centered">Login</h2>
       <div class="field">
         <div class="control has-icons-left">
@@ -32,7 +32,7 @@
           </span>
           <span>Registrarse</span>
         </button>
-        <button class="button is-primary" type="button" @click="login">
+        <button class="button is-primary" type="submit">
           <span class="icon is-small">
             <i class="fa fa-sign-in"></i>
           </span>
@@ -69,8 +69,8 @@ export default {
   data () {
     return {
       auth: {
-        email: 'kenykalin@gmail.com',
-        password: 'secret123'
+        email: '',
+        password: ''
       }
     }
   },

@@ -8,7 +8,7 @@ export default new Vuex.Store({
   strict: false,
   state: {
     auth: null,
-    itemsPerPage: 20,
+    itemsPerPage: 16,
     photos: []
   },
   getters: {

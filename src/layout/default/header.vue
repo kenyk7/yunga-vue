@@ -6,20 +6,37 @@
           <router-link to="/" class="nav-item navbar-logo">
             <img src="static/img/Logomakr_8lInv7.png" alt="Yunga">
           </router-link>
-          <a class="navbar-burger" @click="isMobileMenu = !isMobileMenu">
-            <span></span>
-            <span></span>
-            <span></span>
-          </a>
+          <div class="navbar-item navbar-mobile is-hidden-desktop">
+            <router-link to="/submit" class="button is-primary is-small">
+              <b-icon icon="camera"></b-icon>
+              <span>Enviar</span>
+            </router-link>
+          </div>
+          <router-link v-if="!auth" to="/login" class="navbar-item is-active is-hidden-desktop">
+            <b-icon icon="sign-in"></b-icon>
+          </router-link>
+          <b-dropdown v-if="auth" position="is-bottom-left" class="is-hidden-desktop has-text-centered">
+            <a class="navbar-item is-active" slot="trigger">
+              <b-icon icon="user"></b-icon>
+            </a>
+            <b-dropdown-item has-link>
+              <router-link to="/admin" >
+                <b-icon icon="cogs"></b-icon>
+                Admin
+              </router-link>
+            </b-dropdown-item>
+            <b-dropdown-item @click="logout">
+              <b-icon icon="sign-out"></b-icon>
+              <span>Logout</span>
+            </b-dropdown-item>
+          </b-dropdown>
         </div>
         <div class="navbar-menu" :class="{'is-active': isMobileMenu}">
           <div class="navbar-end">
             <b-dropdown v-if="auth" position="is-bottom-left">
               <a class="navbar-item" slot="trigger">
                 <span>{{auth.email}}</span>
-                <span class="icon">
-                  <i class="fa fa-user"></i>
-                </span>
+                <b-icon icon="user"></b-icon>
               </a>
               <b-dropdown-item has-link>
                 <router-link to="/admin" >
@@ -28,9 +45,7 @@
                 </router-link>
               </b-dropdown-item>
               <b-dropdown-item @click="logout">
-                <span class="icon">
-                  <i class="fa fa-sign-out"></i>
-                </span>
+                <b-icon icon="sign-out"></b-icon>
                 <span>Logout</span>
               </b-dropdown-item>
             </b-dropdown>
@@ -39,9 +54,7 @@
             </router-link>
             <div class="navbar-item">
               <router-link to="/submit" class="button is-primary">
-                <span class="icon">
-                  <i class="fa fa-camera"></i>
-                </span>
+                <b-icon icon="camera"></b-icon>
                 <span>Enviar Foto</span>
               </router-link>
             </div>
@@ -62,7 +75,7 @@
           <b-input placeholder="catarata, cueva, lajas" type="search" icon="search">
           </b-input>
           <p class="control">
-              <button class="button is-info">Buscar</button>
+            <button class="button is-info">Buscar</button>
           </p>
         </b-field>
       </div>
@@ -102,6 +115,9 @@ export default {
   top: 0;
   z-index: 999;
 }
+.navbar-mobile{
+  margin-left: auto;
+}
 @media screen and (min-width: 1024px) {
   .navbar{
     height: 3.8rem;
@@ -121,6 +137,9 @@ export default {
 }
 
 @media screen and (max-width: 575px) {
+  .hero-body{
+    padding: 4rem 1.5rem;
+  }
   .title.is-1{
     font-size: 2rem;
   }

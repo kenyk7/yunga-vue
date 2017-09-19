@@ -34,3 +34,9 @@ body{
     break-inside: avoid;
   }
 }
+// fixs
+.preview-img-item {
+  margin: 0px;
+  max-width: auto;
+  max-height: auto;
+}

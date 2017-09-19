@@ -10,15 +10,22 @@
           </div>
           <footer class="card-footer is-hidden-touch">
             <a class="card-footer-item">
-              3 <b-icon icon="star"></b-icon>
-            </a>
-            <a class="card-footer-item">
               <b-dropdown>
                 <b-icon icon="share" slot="trigger"></b-icon>
-                <b-dropdown-item>Facebook</b-dropdown-item>
-                <b-dropdown-item>Twitter</b-dropdown-item>
-                <b-dropdown-item>Whatsapp</b-dropdown-item>
+                <b-dropdown-item>
+                  <b-icon icon="facebook"></b-icon> Facebook
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <b-icon icon="twitter"></b-icon> Twitter
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  <b-icon icon="whatsapp"></b-icon> Whatsapp
+                </b-dropdown-item>
               </b-dropdown>
+            </a>
+            <a class="card-footer-item">
+              <b-icon icon="star"></b-icon>
+              <span>99</span>
             </a>
           </footer>
         </div>
@@ -28,7 +35,7 @@
 </template>
 <script>
 import api from '../api'
-const refPhotos = api.child('photos').orderByKey().limitToLast(12)
+const refPhotos = api.child('photos').orderByKey().limitToLast(16)
 
 export default {
   name: 'home',
@@ -44,18 +51,18 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
 .pag-home{
   margin-top: 10px;
   margin-bottom: 10px;
 }
 @media screen and (max-width: 575px) {
-    .masonry{
-      column-gap: 0.5em;
-      &__item{
-        margin-bottom: 0em;
-        // margin-top: -10px;
-      }
+  .masonry{
+    column-gap: 0.5em;
+    &__item{
+      margin-bottom: 0em;
+      // margin-top: -10px;
     }
   }
+}
 </style>
