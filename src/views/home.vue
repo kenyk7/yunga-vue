@@ -1,15 +1,11 @@
 <template>
-  <main>
-    <div class="preview-img-list">
-      <img class="preview-img-item" width="200" v-for="(item, index) in items"
-      :src="item.src" @click="$photoswipe.open(index, items)">
-    </div>
-    <!-- <transition-group name="list" tag="div" class="columns is-multiline is-tablet">
-      <div class="column is-one-third" v-for="item in items" :key="item">
+  <section class="pag-home">
+    <transition-group name="list" tag="div" class="columns is-multiline is-tablet">
+      <div class="column is-one-third" v-for="(item, index) in items" :key="item.src">
         <div class="card">
           <div class="card-image">
             <figure class="image is-16by9">
-              <img :src="item.src" alt="Image">
+              <img :src="item.src" alt="Image" @click="$photoswipe.open(index, items)" class="preview-img-item">
             </figure>
           </div>
           <footer class="card-footer">
@@ -27,36 +23,28 @@
           </footer>
         </div>
       </div>
-    </transition-group> -->
-    <pre>{{photos}}</pre>
-  </main>
+    </transition-group>
+  </section>
 </template>
 <script>
 import api from '../api'
-const refPhotos = api.child('photos')
+const refPhotos = api.child('photos').orderByKey().limitToLast(12)
 
 export default {
   name: 'home',
-  data () {
-    return {
-      items: [{
-        src: 'https://unsplash.it/2000/1500',
-        w: 2000,
-        h: 1500
-      }, {
-        src: 'https://unsplash.it/2000/1500',
-        w: 2000,
-        h: 1500
-      }, {
-        src: 'https://unsplash.it/2000/1500',
-        w: 2000,
-        h: 1500
-      }]
-    }
-  },
+
   computed: {
     photos () {
       return this.$store.state.photos
+    },
+    items () {
+      return this.photos.map((obj) => {
+        return {
+          w: 2000,
+          h: 1500,
+          src: obj.photoUrl
+        }
+      }).reverse()
     }
   },
   created () {
@@ -66,15 +54,8 @@ export default {
 </script>
 
 <style>
-.preview-img-list {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-}
-.preview-img-item {
-  margin: 5px;
-  max-width: 300px;
-  max-height: 300px;
+.pag-home{
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>

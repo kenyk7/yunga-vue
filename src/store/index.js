@@ -7,28 +7,22 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   strict: false,
   state: {
+    auth: null,
     itemsPerPage: 20,
     photos: []
   },
-  mutations: {
-    ...firebaseMutations,
-    otro () {
-      console.log('hello otro')
-    }
-  },
   getters: {
     photos: state => state.photos
+  },
+  mutations: {
+    ...firebaseMutations,
+    setAuth (state, payload) {
+      state.auth = payload
+    }
   },
   actions: {
     setPhotosRef: firebaseAction(({bindFirebaseRef}, ref) => {
       bindFirebaseRef('photos', ref)
     })
-  },
-  modules: {
-    auth: {
-      state: {
-        user: null
-      }
-    }
   }
 })

@@ -12,7 +12,7 @@ import store from './store'
 import './assets/scss/style.scss'
 import 'font-awesome/css/font-awesome.css'
 
-Vue.use(Buefy)
+Vue.use(Buefy, {defaultIconPack: 'fa'})
 Vue.use(VuePhotoSwipe)
 
 Vue.config.productionTip = false

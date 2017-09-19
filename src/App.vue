@@ -23,6 +23,7 @@ export default {
   },
   created () {
     Firebase.auth().onAuthStateChanged(this.onAuthStateChanged)
+    this.$store.commit('setAuth', Firebase.auth().currentUser)
   },
   methods: {
     onAuthStateChanged (user) {

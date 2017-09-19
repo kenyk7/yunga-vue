@@ -1,43 +1,46 @@
 <template>
   <header>
-    <nav class="nav has-shadow">
+    <nav class="navbar has-shadow">
       <div class="container">
-        <div class="nav-left">
-          <router-link to="/" class="nav-item">
+        <div class="navbar-brand">
+          <router-link to="/" class="nav-item navbar-logo">
             <img src="static/img/Logomakr_8lInv7.png" alt="Yunga">
           </router-link>
+          <a class="navbar-burger" @click="isMobileMenu = !isMobileMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </a>
         </div>
-        <span class="nav-toggle" :class="{'is-active': isMobileMenu}"
-        @click="isMobileMenu = !isMobileMenu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-        <ul class="nav-right nav-menu" :class="{'is-active': isMobileMenu}">
-          <!-- <li class="nav-item">
-            <router-link to="/test" class="nav-link">
-              Test
-            </router-link>
-          </li> -->
-          <li class="nav-item">
-            <a href="#" @click.prevent="logout" class="nav-link">
-              Logout
-            </a>
-          </li>
-          <li class="nav-item">
-            <router-link to="/login" class="nav-link">
+        <div class="navbar-menu" :class="{'is-active': isMobileMenu}">
+          <div class="navbar-end">
+            <b-dropdown v-if="auth" position="is-bottom-left">
+              <a class="navbar-item" slot="trigger">
+                <span>{{auth.email}}</span>
+                <span class="icon">
+                  <i class="fa fa-user"></i>
+                </span>
+              </a>
+              <b-dropdown-item @click="logout">
+                <span class="icon">
+                  <i class="fa fa-sign-out"></i>
+                </span>
+                <span>Logout</span>
+              </b-dropdown-item>
+            </b-dropdown>
+            <router-link v-if="!auth" to="/login" class="navbar-item">
               Login / Registro
             </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/submit" class="nav-link button is-primary">
-              <span class="icon">
-                <i class="fa fa-camera"></i>
-              </span>
-              <span>Enviar Foto</span>
-            </router-link>
-          </li>
-        </ul>
+            <div class="navbar-item">
+              <router-link to="/submit" class="button is-primary">
+                <span class="icon">
+                  <i class="fa fa-camera"></i>
+                </span>
+                <span>Enviar Foto</span>
+              </router-link>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
     <div class="hero-body" style="background-image: url('./static/img/yunga-header.jpg');">
@@ -73,6 +76,11 @@ export default {
       isMobileMenu: false
     }
   },
+  computed: {
+    auth () {
+      return this.$store.state.auth
+    }
+  },
   methods: {
     logout () {
       Firebase.auth().signOut().then(function () {
@@ -86,30 +94,23 @@ export default {
 }
 </script>
 <style  lang="scss" scoped>
-.nav{
+.navbar{
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
+  z-index: 999;
 }
 @media screen and (min-width: 1024px) {
-  .nav{
-    height: 4rem;
+  .navbar{
+    height: 3.8rem;
   }
-  .nav-item img{
+  .navbar-logo img{
     max-height: 2.2rem;
   }
-  .nav-left{
-    margin-left: -1rem;
-  }
-  .nav-right{
-    margin-right: -1rem;
-  }
 }
-
 .hero-body{
   margin-top: 3rem;
-  // padding: 6rem 1.5rem;
   background-size: cover;
   background-position: center;
   .title,
