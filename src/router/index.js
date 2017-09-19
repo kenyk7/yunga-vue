@@ -6,6 +6,7 @@ import Home from '@/views/home'
 import Submit from '@/views/submit'
 import Test from '@/views/test'
 import Login from '@/views/login'
+import Admin from '@/views/admin'
 
 Vue.use(Router)
 
@@ -40,6 +41,14 @@ const router = new Router({
           next({name: 'Home'})
         }
         next()
+      }
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin,
+      meta: {
+        auth: true
       }
     }
   ]

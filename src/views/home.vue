@@ -1,14 +1,14 @@
 <template>
   <section class="pag-home">
-    <transition-group name="list" tag="div" class="columns is-multiline is-tablet">
-      <div class="column is-one-third" v-for="(item, index) in items" :key="item.src">
+    <transition-group name="list" tag="div" class="masonry">
+      <div class="masonry__item" v-for="(item, index) in photos" :key="item.src">
         <div class="card">
           <div class="card-image">
-            <figure class="image is-16by9">
-              <img :src="item.src" alt="Image" @click="$photoswipe.open(index, items)" class="preview-img-item">
+            <figure class="image">
+              <img :src="item.src" alt="Image" @click="$photoswipe.open(index, photos)" class="preview-img-item">
             </figure>
           </div>
-          <footer class="card-footer">
+          <footer class="card-footer is-hidden-touch">
             <a class="card-footer-item">
               3 <b-icon icon="star"></b-icon>
             </a>
@@ -35,16 +35,7 @@ export default {
 
   computed: {
     photos () {
-      return this.$store.state.photos
-    },
-    items () {
-      return this.photos.map((obj) => {
-        return {
-          w: 2000,
-          h: 1500,
-          src: obj.photoUrl
-        }
-      }).reverse()
+      return this.$store.getters.photos
     }
   },
   created () {
@@ -53,9 +44,18 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .pag-home{
   margin-top: 10px;
   margin-bottom: 10px;
 }
+@media screen and (max-width: 575px) {
+    .masonry{
+      column-gap: 0.5em;
+      &__item{
+        margin-bottom: 0em;
+        // margin-top: -10px;
+      }
+    }
+  }
 </style>

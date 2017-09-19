@@ -21,6 +21,12 @@
                   <i class="fa fa-user"></i>
                 </span>
               </a>
+              <b-dropdown-item has-link>
+                <router-link to="/admin" >
+                  <b-icon icon="cogs"></b-icon>
+                  Admin
+                </router-link>
+              </b-dropdown-item>
               <b-dropdown-item @click="logout">
                 <span class="icon">
                   <i class="fa fa-sign-out"></i>
@@ -52,18 +58,13 @@
         <h2 class="subtitle is-6">
           Sitio web sobre fotografía para el distrito Santa Rosa
         </h2>
-        <div class="center-search">
-          <div class="field has-addons">
-            <div class="control">
-              <input class="input" type="text" placeholder="Catarata, cueva, lajas, etc">
-            </div>
-            <div class="control">
-              <a class="button is-info">
-                <span>Buscar</span>
-              </a>
-            </div>
-          </div>
-        </div>
+        <b-field position="is-centered">
+          <b-input placeholder="catarata, cueva, lajas" type="search" icon="search">
+          </b-input>
+          <p class="control">
+              <button class="button is-info">Buscar</button>
+          </p>
+        </b-field>
       </div>
     </div>
   </header>
@@ -117,10 +118,6 @@ export default {
   .subtitle{
     color: #fff
   }
-}
-.center-search{
-  display: flex;
-  justify-content: center
 }
 
 @media screen and (max-width: 575px) {

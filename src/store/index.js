@@ -12,7 +12,7 @@ export default new Vuex.Store({
     photos: []
   },
   getters: {
-    photos: state => state.photos
+    photos: state => state.photos.reverse()
   },
   mutations: {
     ...firebaseMutations,
