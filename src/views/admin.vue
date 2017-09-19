@@ -51,8 +51,10 @@
   </section>
 </template>
 <script>
+import Firebase from 'firebase'
 import api from '../api'
 const photosRef = api.child('photos')
+const storageRef = Firebase.storage().ref()
 const lastPhotos = photosRef.orderByKey().limitToLast(12)
 
 export default {
@@ -75,7 +77,14 @@ export default {
       return tags.split(', ')
     },
     deletePhoto (item) {
-      photosRef.child(item['.key']).remove()
+      const desertRef = storageRef.child('uploads/photos/' + item['.key'])
+      desertRef.delete().then(function () {
+        photosRef.child(item['.key']).remove()
+        console.log('delete success')
+      }).catch(function (error) {
+        // Uh-oh, an error occurred!
+        console.log('delete error', error)
+      })
     },
     updateTags (item, val) {
       photosRef.child(item['.key']).child('tags').set(val)
