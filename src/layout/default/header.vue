@@ -15,7 +15,7 @@
           <router-link v-if="!auth" to="/login" class="navbar-item is-active is-hidden-desktop">
             <b-icon icon="sign-in"></b-icon>
           </router-link>
-          <b-dropdown v-if="auth" position="is-bottom-left" class="is-hidden-desktop has-text-centered">
+          <b-dropdown v-if="auth" hoverable position="is-bottom-left" class="is-hidden-desktop has-text-centered">
             <a class="navbar-item is-active" slot="trigger">
               <b-icon icon="user"></b-icon>
             </a>
@@ -33,7 +33,7 @@
         </div>
         <div class="navbar-menu" :class="{'is-active': isMobileMenu}">
           <div class="navbar-end">
-            <b-dropdown v-if="auth" position="is-bottom-left">
+            <b-dropdown v-if="auth" hoverable position="is-bottom-left">
               <a class="navbar-item" slot="trigger">
                 <span>{{auth.email}}</span>
                 <b-icon icon="user"></b-icon>

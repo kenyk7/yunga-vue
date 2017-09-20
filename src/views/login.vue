@@ -119,11 +119,12 @@ export default {
   margin-right: auto;
   padding: 30px;
   padding-top: 20px;
-  background: #fff;
+  background: #f9f9f9;
   border-radius: 5px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  box-shadow: 0 3px 7px rgba(#000, 0.15);
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 3px rgba(#000, 0.15);
 }
 .group-btn{
   display: flex;
@@ -133,7 +134,7 @@ export default {
   }
 }
 .social-login{
-  background: #f0f0f0;
+  background: #e5e5e5;
   padding: 15px 20px;
   margin-top: 20px;
   margin-bottom: -30px;

@@ -14,7 +14,7 @@
           <span>9</span>
         </a>
         <span>&nbsp;</span>
-        <b-dropdown >
+        <b-dropdown hoverable position="is-top-right">
           <button class="button" slot="trigger">
             <b-icon icon="share-alt"></b-icon>
           </button>
