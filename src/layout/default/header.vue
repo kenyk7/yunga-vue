@@ -50,7 +50,8 @@
               </b-dropdown-item>
             </b-dropdown>
             <router-link v-if="!auth" to="/login" class="navbar-item">
-              Login / Registro
+              <b-icon icon="user"></b-icon>
+              <span>Login / Registro</span>
             </router-link>
             <div class="navbar-item">
               <router-link to="/submit" class="button is-primary">

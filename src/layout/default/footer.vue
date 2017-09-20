@@ -24,10 +24,13 @@
     </div>
   </footer>
 </template>
-<style scoped>
+<style lang="scss" scoped>
 .footer{
   padding: 3rem 1.5rem;
   background: #e8e8e8;
+  .button {
+    margin: 5px;
+  }
 }
 </style>
 

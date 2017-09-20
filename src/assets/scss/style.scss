@@ -6,7 +6,6 @@
 body{
   font-family: 'Roboto';
   font-weight: 400;
-  background: #f5f5f5;
 }
 .title{
   font-weight: 300;
@@ -24,19 +23,26 @@ body{
 }
 
 .masonry{
-  column-width: 10em;
+  column-width: 16em;
   column-gap: 1.4em;
   column-count: 4;
   &__item{
     display: inline-block;
-    margin: 0 0 1.5em;
+    margin: 0 0 1.4em;
     width: 100%;
     break-inside: avoid;
   }
+  @media screen and (max-width: 600px) {
+    column-count: 1;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    margin-bottom: 1.5rem;
+  }
 }
+
 // fixs
 .preview-img-item {
   margin: 0px;
-  max-width: auto;
-  max-height: auto;
+  max-width: none;
+  max-height: none;
 }

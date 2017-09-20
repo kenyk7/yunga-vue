@@ -1,5 +1,5 @@
 <template>
-  <section class="pag-home">
+  <section class="pag-admin">
     <transition-group name="list" tag="div" class="masonry">
       <div class="masonry__item" v-for="(item, index) in photos" :key="item.src">
         <div class="card">
@@ -10,31 +10,31 @@
           </div>
           <footer class="card-footer">
             <div class="card-footer-item" >
-              <b-dropdown v-model="navigation">
+              <b-dropdown v-model="navigation" hoverable position="is-top-right">
                 <a slot="trigger">
                   <b-icon icon="edit"></b-icon>
                 </a>
                 <b-dropdown-item v-model="navigation" custom paddingless>
-                    <form action="">
-                      <div class="modal-card" style="width:300px;">
-                        <div class="modal-card-body">
-                          <div class="field">
-                            <label class="label">¿Qué hay en esta foto?</label>
-                            <div class="control">
-                              <input class="input" :value="item.tags" type="text"
-                              placeholder="catarata, cueva, lajas" required
-                              @input="updateTags(item, $event.target.value)">
-                            </div>
-                          </div>
-                          <div>
-                            <span v-for="(tag, index) in getTags(item.tags)" :key="tag"
-                            class="tag is-info" style="margin-right: 3px">
-                              {{tag}}
-                            </span>
+                  <form action="">
+                    <div class="modal-card" style="width: 275px;">
+                      <div class="modal-card-body">
+                        <div class="field">
+                          <label class="label">¿Qué hay en esta foto?</label>
+                          <div class="control">
+                            <input class="input" :value="item.tags" type="text"
+                            placeholder="catarata, cueva, lajas" required
+                            @input="updateTags(item, $event.target.value)">
                           </div>
                         </div>
+                        <div>
+                          <span v-for="(tag, index) in getTags(item.tags)" :key="tag" v-if="tag"
+                          class="tag is-info" style="margin-right: 3px">
+                            {{tag}}
+                          </span>
+                        </div>
                       </div>
-                    </form>
+                    </div>
+                  </form>
                 </b-dropdown-item>
               </b-dropdown>
             </div>
@@ -100,7 +100,7 @@ export default {
 </script>
 
 <style lang="scss">
-.pag-home{
+.pag-admin{
   margin-top: 10px;
   margin-bottom: 10px;
 }
