@@ -103,13 +103,15 @@ export default {
     transition: all 0.4s;
   }
   @media (min-width: 600px) {
-    &__img .preview-img-item{
-      position: relative;
-      &:hover{
+    &:hover{
+      .card-photo__img .preview-img-item{
         &:before{
           opacity: 1;
         }
       }
+    }
+    &__img .preview-img-item{
+      position: relative;
       &:before{
         content: "";
         height: 55px;
