@@ -35,7 +35,7 @@
           <div class="navbar-end">
             <b-dropdown v-if="auth" hoverable position="is-bottom-left">
               <a class="navbar-item" slot="trigger">
-                <span>{{auth.email}}</span>
+                <span>{{auth.displayName}}</span>
                 <b-icon icon="user"></b-icon>
               </a>
               <b-dropdown-item has-link>

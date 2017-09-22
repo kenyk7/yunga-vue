@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   strict: false,
   state: {
+    uid: null,
     auth: null,
     itemsPerPage: 16,
     photos: []
@@ -23,6 +24,9 @@ export default new Vuex.Store({
   actions: {
     setPhotosRef: firebaseAction(({bindFirebaseRef}, ref) => {
       bindFirebaseRef('photos', ref)
+    }),
+    setUid: firebaseAction(({bindFirebaseRef}, ref) => {
+      bindFirebaseRef('uid', ref)
     })
   }
 })

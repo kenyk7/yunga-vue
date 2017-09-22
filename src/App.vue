@@ -8,6 +8,8 @@
 
 <script>
 import Firebase from 'firebase'
+import api from './api'
+const usersRef = api.child('users')
 import tplDefault from './layout/default'
 
 export default {
@@ -17,24 +19,35 @@ export default {
   },
   data () {
     return {
-      user: null,
-      currentUID: null
+      uid: null
     }
   },
   created () {
     Firebase.auth().onAuthStateChanged(this.onAuthStateChanged)
-    this.$store.commit('setAuth', Firebase.auth().currentUser)
   },
   methods: {
     onAuthStateChanged (user) {
-      // We ignore token refresh events.
-      if (user && this.currentUID === user.uid) return
-      const userFire = Firebase.auth().currentUser
       if (user) {
-        this.user = userFire
-        this.currentUID = user.uid
+        this.$store.dispatch('setUid', usersRef.child(user.uid))
+        this.$store.commit('setAuth', user)
+        // We ignore token refresh events.
+        setTimeout(() => {
+          console.log('user:', this.$store.state.uid.email)
+          if (this.$store.state.uid.email) {
+            console.log('exits user')
+            return
+          }
+          console.log('write user')
+          // this.uid = user.uid
+          usersRef.child(user.uid).set({
+            username: user.displayName,
+            email: user.email,
+            profile_picture: user.photoURL
+          })
+        }, 1000)
       } else {
-        this.user = null
+        // Set currentUID to null.
+        this.uid = null
       }
     }
   }
