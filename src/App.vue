@@ -17,37 +17,26 @@ export default {
   components: {
     tplDefault
   },
-  data () {
-    return {
-      uid: null
-    }
-  },
   created () {
     Firebase.auth().onAuthStateChanged(this.onAuthStateChanged)
   },
   methods: {
     onAuthStateChanged (user) {
       if (user) {
-        this.$store.dispatch('setUid', usersRef.child(user.uid))
+        this.$store.dispatch('setUser', usersRef.child(user.uid))
         this.$store.commit('setAuth', user)
         // We ignore token refresh events.
         setTimeout(() => {
-          console.log('user:', this.$store.state.uid.email)
-          if (this.$store.state.uid.email) {
-            console.log('exits user')
+          // exist user
+          if (this.$store.state.user.email) {
             return
           }
-          console.log('write user')
-          // this.uid = user.uid
           usersRef.child(user.uid).set({
             username: user.displayName,
             email: user.email,
             profile_picture: user.photoURL
           })
         }, 1000)
-      } else {
-        // Set currentUID to null.
-        this.uid = null
       }
     }
   }
