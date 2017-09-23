@@ -71,7 +71,13 @@ export default {
         tags: '',
         src: '',
         w: null,
-        h: null
+        h: null,
+        starCount: 0,
+        uid: this.$store.state.auth.uid,
+        autor: {
+          username: this.$store.state.user.username || this.$store.state.user.email,
+          profile_picture: this.$store.state.user.profile_picture
+        }
       },
       image: ''
     }

@@ -36,7 +36,7 @@ export default {
             email: user.email,
             profile_picture: user.photoURL
           })
-        }, 1000)
+        }, 1500)
       }
     }
   }

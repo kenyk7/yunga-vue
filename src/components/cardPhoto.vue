@@ -1,17 +1,17 @@
 <template>
   <div class="card-photo">
     <a href="#" @click.prevent="" class="card-photo__user">
-      <img src="https://avatars.io/twitter/kenyk7" alt="Kenyk7" width="35" height="35">
-      <h5>Kenyk7</h5>
+      <img :src="photo.autor.profile_picture" :alt="photo.autor.username" width="35" height="35">
+      <h5>{{photo.autor.username}}</h5>
     </a>
     <div class="card-photo__img image">
       <slot></slot>
     </div>
     <div class="card-photo__actions">
       <div left>
-        <a class="button">
+        <a class="button" @click.prevent="onStarClicked()">
           <b-icon icon="heart" class="is-danger"></b-icon>
-          <span>9</span>
+          <span>{{photo.starCount}}</span>
         </a>
         <span>&nbsp;</span>
         <b-dropdown hoverable position="is-top-right">
@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import api from '../api'
+const refPhotos = api.child('photos')
 export default {
   props: {
     photo: {
@@ -50,6 +52,29 @@ export default {
       default () {
         return {}
       }
+    }
+  },
+  methods: {
+    onStarClicked () {
+      const key = this.photo['.key']
+      this.toggleStar(refPhotos.child(key), this.$store.state.auth.uid)
+    },
+    toggleStar (photoRef, uid) {
+      photoRef.transaction(function (item) {
+        if (item) {
+          if (item.stars && item.stars[uid]) {
+            item.starCount--
+            item.stars[uid] = null
+          } else {
+            item.starCount++
+            if (!item.stars) {
+              item.stars = {}
+            }
+            item.stars[uid] = true
+          }
+        }
+        return item
+      })
     }
   }
 }
