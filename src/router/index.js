@@ -7,6 +7,7 @@ import Submit from '@/views/submit'
 import Test from '@/views/test'
 import Login from '@/views/login'
 import Admin from '@/views/admin'
+import Profile from '@/views/profile'
 
 Vue.use(Router)
 
@@ -47,6 +48,14 @@ const router = new Router({
       path: '/admin',
       name: 'Admin',
       component: Admin,
+      meta: {
+        auth: true
+      }
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile,
       meta: {
         auth: true
       }

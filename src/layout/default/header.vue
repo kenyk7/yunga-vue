@@ -15,13 +15,19 @@
           <router-link v-if="!auth" to="/login" class="navbar-item is-active is-hidden-desktop">
             <b-icon icon="sign-in"></b-icon>
           </router-link>
-          <b-dropdown v-if="auth" hoverable position="is-bottom-left" class="is-hidden-desktop has-text-centered">
+          <b-dropdown v-if="auth" hoverable position="is-bottom-left" class="is-hidden-desktop">
             <a class="navbar-item is-active" slot="trigger">
               <b-icon icon="user"></b-icon>
             </a>
             <b-dropdown-item has-link>
+              <router-link to="/profile" >
+                <b-icon icon="user-circle-o"></b-icon>
+                Perfil
+              </router-link>
+            </b-dropdown-item>
+            <b-dropdown-item has-link>
               <router-link to="/admin" >
-                <b-icon icon="cogs"></b-icon>
+                <b-icon icon="picture-o"></b-icon>
                 Admin
               </router-link>
             </b-dropdown-item>
@@ -39,9 +45,15 @@
                 <b-icon icon="user"></b-icon>
               </a>
               <b-dropdown-item has-link>
+                <router-link to="/profile" >
+                  <b-icon icon="user-circle-o"></b-icon>
+                  Perfil
+                </router-link>
+              </b-dropdown-item>
+              <b-dropdown-item has-link>
                 <router-link to="/admin" >
-                  <b-icon icon="cogs"></b-icon>
-                  Admin
+                  <b-icon icon="picture-o"></b-icon>
+                  Mis fotos
                 </router-link>
               </b-dropdown-item>
               <b-dropdown-item @click="logout">
