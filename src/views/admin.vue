@@ -58,7 +58,7 @@ import Firebase from 'firebase'
 import api from '../api'
 const photosRef = api.child('photos')
 const storageRef = Firebase.storage().ref()
-const lastPhotos = photosRef.orderByKey().limitToLast(16)
+const lastPhotos = photosRef.limitToLast(16).orderByChild('approved')
 
 export default {
   name: 'admin',
