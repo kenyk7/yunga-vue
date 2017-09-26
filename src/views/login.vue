@@ -104,7 +104,7 @@ export default {
     },
     loginWithGoogle () {
       auth.signInWithPopup(provider).then(function (res) {
-        console.log(res)
+        console.log('login success')
       }).catch(function (error) {
         console.log(error)
       })

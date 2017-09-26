@@ -58,7 +58,7 @@ import Firebase from 'firebase'
 import api from '../api'
 const photosRef = api.child('photos')
 const storageRef = Firebase.storage().ref()
-const lastPhotos = photosRef.limitToLast(16).orderByChild('approved')
+const lastPhotos = photosRef.limitToLast(16)
 
 export default {
   name: 'admin',
@@ -73,7 +73,11 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('setPhotosRef', lastPhotos)
+    const _self = this
+    setTimeout(function () {
+      const uid = _self.$store.state.auth.uid
+      _self.$store.dispatch('setPhotosRef', lastPhotos.orderByChild('uid').equalTo(uid))
+    }, 1000)
   },
   methods: {
     getTags (tags) {
