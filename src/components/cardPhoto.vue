@@ -1,8 +1,8 @@
 <template>
   <div class="card-photo">
     <a href="#" @click.prevent="" class="card-photo__user">
-      <img :src="photo.autor.profile_picture" :alt="photo.autor.username" width="35" height="35">
-      <h5>{{photo.autor.username}}</h5>
+      <img :src="photo.author.profile_picture" :alt="photo.author.username" width="35" height="35">
+      <h5>{{photo.author.username}}</h5>
     </a>
     <div class="card-photo__img image">
       <slot></slot>
@@ -14,7 +14,7 @@
           <span>{{photo.starCount}}</span>
         </a>
         <span>&nbsp;</span>
-        <b-dropdown hoverable position="is-top-right">
+        <b-dropdown hoverable position="is-top-right" class="is-hidden">
           <button class="button" slot="trigger">
             <b-icon icon="share-alt"></b-icon>
           </button>
@@ -44,7 +44,7 @@
 
 <script>
 import api from '../api'
-const refPhotos = api.child('photos')
+const photosRef = api.child('photos')
 export default {
   props: {
     photo: {
@@ -57,7 +57,7 @@ export default {
   methods: {
     onStarClicked () {
       const key = this.photo['.key']
-      this.toggleStar(refPhotos.child(key), this.$store.state.auth.uid)
+      this.toggleStar(photosRef.child(key), this.$store.state.auth.uid)
     },
     toggleStar (photoRef, uid) {
       photoRef.transaction(function (item) {
@@ -87,7 +87,7 @@ export default {
       opacity: 1;
     }
     .card-photo__actions{
-      opacity: 0.9;
+      opacity: 0.95;
     }
   }
   .button{

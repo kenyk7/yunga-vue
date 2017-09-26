@@ -1,16 +1,17 @@
 <template>
   <main>
     <div class="block-uploader">
+      <canvas class="is-hidden"></canvas>
       <b-field>
         <picture-input
           ref="pictureInput"
-          @change="onChange"
+          @change="onChangePicture"
           @remove="onRemoved"
           width="350"
-          height="250"
+          height="300"
           :zIndex="9"
           accept="image/jpeg,image/png"
-          size="'0"
+          size="10"
           buttonClass="button is-small"
           :removable="true"
           removeButtonClass="button is-danger is-small"
@@ -70,41 +71,34 @@ export default {
       photo: {
         tags: '',
         src: '',
+        thumbnail: '',
         w: null,
         h: null,
-        starCount: 0,
-        uid: this.$store.state.auth.uid,
-        autor: {
-          username: this.$store.state.user.username || this.$store.state.user.email,
-          profile_picture: this.$store.state.user.profile_picture
-        }
+        starCount: 0
       },
-      image: ''
+      image: '',
+      imgBlobThumbnail: ''
     }
   },
   computed: {
+    uid () {
+      return this.$store.state.auth.uid
+    },
+    author () {
+      return {
+        username: this.$store.state.user.username || this.$store.state.user.email,
+        profile_picture: this.$store.state.user.profile_picture
+      }
+    },
     isValid () {
-      return this.image && this.photo.tags && this.photo.w
+      return this.image && this.photo.tags && this.photo.w && this.imgBlobThumbnail
     }
   },
   methods: {
     getTags (tags) {
       return tags.split(', ')
     },
-    createReader (file, whenReady) {
-      let reader = new FileReader()
-      reader.onload = function (evt) {
-        let image = new Image()
-        image.onload = function (evt) {
-          const width = this.width
-          const height = this.height
-          if (whenReady) whenReady(width, height)
-        }
-        image.src = evt.target.result
-      }
-      reader.readAsDataURL(file)
-    },
-    onChange () {
+    onChangePicture () {
       if (this.$refs.pictureInput.image) {
         this.image = this.$refs.pictureInput.file
         this.createReader(this.image, (w, h) => {
@@ -112,44 +106,96 @@ export default {
           this.photo.h = h
         })
       } else {
-        console.log('FileReader API not supported: use the <form>, Luke!')
+        console.log('FileReader API not supported!')
       }
     },
     onRemoved () {
       this.image = ''
     },
     submitData (event) {
-      this.loading = true
-      const file = this.image
+      const _self = this
+      _self.loading = true
+      const file = _self.image
       const metadata = {
         'contentType': file.type
       }
       const key = refPhotos.push().key
       storageRef.child('uploads/photos/' + key).put(file, metadata).then((snapshot) => {
-        this.photo.src = snapshot.downloadURL
-        refPhotos.child(key).update(this.photo)
-        // reset data
-        this.loading = false
-        this.image = ''
-        this.photo = {
-          tags: '',
-          photoUrl: '',
-          w: null,
-          h: null
-        }
-        this.$refs.pictureInput.removeImage()
-        // noti
-        this.$toast.open({
-          message: 'Foto enviada correctamente',
-          type: 'is-success'
+        _self.photo.src = snapshot.downloadURL
+        storageRef.child('uploads/photos/thumbs/' + key).put(_self.imgBlobThumbnail, {'contentType': 'image/jpeg'}).then((snapshotThumb) => {
+          _self.photo.thumbnail = snapshotThumb.downloadURL
+          _self.photo.uid = _self.uid
+          _self.photo.author = _self.author
+          refPhotos.child(key).update(_self.photo)
+          _self.loading = false
+          // reset data
+          _self.image = ''
+          _self.photo.tags = ''
+          _self.photo.src = ''
+          _self.photo.thumbnail = ''
+          _self.photo.w = ''
+          _self.photo.h = ''
+
+          _self.$refs.pictureInput.removeImage()
+          // noti
+          _self.$toast.open({
+            message: 'Foto enviada correctamente',
+            type: 'is-success'
+          })
         })
       }).catch((error) => {
-        this.$toast.open({
+        _self.$toast.open({
           message: 'Upload failed' + error,
           type: 'is-danger'
         })
-        this.loading = false
+        _self.loading = false
       })
+    },
+    createReader (file, whenReady) {
+      const _self = this
+      let reader = new FileReader()
+      reader.onload = function (event) {
+        let image = new Image()
+        image.onload = function () {
+          const width = this.width
+          const height = this.height
+          if (whenReady) {
+            whenReady(width, height)
+            image.width = width
+            image.height = height
+          }
+        }
+        image.src = event.target.result
+        _self.resizeImg(image)
+      }
+      reader.readAsDataURL(file)
+    },
+    resizeImg (img) {
+      const _self = this
+      const canvas = this.$el.querySelector('canvas')
+      var MAX_WIDTH = 500
+      var MAX_HEIGHT = 900
+      var width = img.width
+      var height = img.height
+
+      if (width > height) {
+        if (width > MAX_WIDTH) {
+          height *= MAX_WIDTH / width
+          width = MAX_WIDTH
+        }
+      } else {
+        if (height > MAX_HEIGHT) {
+          width *= MAX_HEIGHT / height
+          height = MAX_HEIGHT
+        }
+      }
+      canvas.width = width
+      canvas.height = height
+      let ctx = canvas.getContext('2d')
+      ctx.drawImage(img, 0, 0, width, height)
+      canvas.toBlob(function (blob) {
+        _self.imgBlobThumbnail = blob
+      }, 'image/jpeg', 0.9)
     }
   }
 }
@@ -166,6 +212,9 @@ export default {
   margin-top: 10px;
   margin-bottom: 10px;
   box-shadow: 0 3px 7px rgba(#000, 0.15);
+  > canvas {
+    width: 100%;
+  }
 }
 .tags{
   justify-content: center;

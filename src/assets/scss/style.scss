@@ -13,6 +13,10 @@ body{
 .subtitle{
   font-weight: 300;
 }
+.label{
+  font-weight: 400;
+}
+
 .list-enter-active,
 .list-leave-active {
   transition: all 1s;
@@ -25,7 +29,7 @@ body{
 .masonry{
   column-width: 16em;
   column-gap: 1.4em;
-  column-count: 4;
+  column-count: 3;
   &__item{
     display: inline-block;
     margin: 0 0 1.4em;

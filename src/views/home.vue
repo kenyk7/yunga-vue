@@ -4,7 +4,7 @@
       <div class="masonry__item" v-for="(item, index) in photos" :key="item.src">
         <card-photo :photo="item">
           <figure @click="$photoswipe.open(index, photos)" class="preview-img-item">
-            <img :src="item.src" :alt="item.tags">
+            <img :src="item.thumbnail" :alt="item.tags">
           </figure>
         </card-photo>
       </div>
@@ -13,7 +13,7 @@
 </template>
 <script>
 import api from '../api'
-const refPhotos = api.child('photos').orderByKey().limitToLast(16)
+const refPhotos = api.child('photos').limitToLast(16).orderByChild('approved').equalTo(true)
 import cardPhoto from '@/components/cardPhoto'
 
 export default {

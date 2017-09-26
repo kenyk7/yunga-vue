@@ -5,41 +5,44 @@
         <div class="card">
           <div class="card-image">
             <figure class="image">
-              <img :src="item.src" alt="Image" @click="$photoswipe.open(index, photos)" class="preview-img-item">
+              <img :src="item.thumbnail" alt="Image" @click="$photoswipe.open(index, photos)" class="preview-img-item">
             </figure>
           </div>
           <footer class="card-footer">
-            <div class="card-footer-item" >
+            <div class="card-footer-item">
               <b-dropdown v-model="navigation" hoverable position="is-top-right">
                 <a slot="trigger">
                   <b-icon icon="edit"></b-icon>
                 </a>
                 <b-dropdown-item v-model="navigation" custom paddingless>
-                  <form action="">
-                    <div class="modal-card" style="width: 275px;">
-                      <div class="modal-card-body">
-                        <div class="field">
-                          <label class="label">¿Qué hay en esta foto?</label>
-                          <div class="control">
-                            <input class="input" :value="item.tags" type="text"
-                            placeholder="catarata, cueva, lajas" required
-                            @input="updateTags(item, $event.target.value)">
-                          </div>
-                        </div>
-                        <div>
-                          <span v-for="(tag, index) in getTags(item.tags)" :key="tag" v-if="tag"
-                          class="tag is-info" style="margin-right: 3px">
-                            {{tag}}
-                          </span>
+                  <div class="modal-card" style="width: 275px;">
+                    <div class="modal-card-body">
+                      <div class="field">
+                        <label class="label">¿Qué hay en esta foto?</label>
+                        <div class="control">
+                          <input class="input" :value="item.tags" type="text"
+                          placeholder="catarata, cueva, lajas" required
+                          @input="updateTags(item, $event.target.value)">
                         </div>
                       </div>
+                      <div>
+                        <span v-for="(tag, index) in getTags(item.tags)" :key="tag" v-if="tag"
+                        class="tag is-info" style="margin-right: 3px">
+                          {{tag}}
+                        </span>
+                      </div>
                     </div>
-                  </form>
+                  </div>
                 </b-dropdown-item>
               </b-dropdown>
             </div>
             <a class="card-footer-item">
-              12
+              <b-icon icon="heart"></b-icon>
+              <span>{{item.starCount}}</span>
+            </a>
+            <a class="card-footer-item" @click="toggleApprovedPhoto(item)" title="Toggle approved">
+              <b-icon v-if="!item.approved" icon="check"></b-icon>
+              <b-icon v-if="item.approved" icon="close"></b-icon>
             </a>
             <a class="card-footer-item" @click="deletePhoto(item)">
               <b-icon icon="trash"></b-icon>
@@ -82,9 +85,18 @@ export default {
         message: '¿Estás seguro que deseas eliminar?',
         onConfirm: () => {
           const desertRef = storageRef.child('uploads/photos/' + item['.key'])
+          const desertRefThumb = storageRef.child('uploads/photos/thumbs/' + item['.key'])
+          // delete photo
           desertRef.delete().then(function () {
             photosRef.child(item['.key']).remove()
             _self.$toast.open('Foto eliminada')
+          }).catch(function (error) {
+            // Uh-oh, an error occurred!
+            console.log('delete error', error)
+          })
+          // delete photo thumb
+          desertRefThumb.delete().then(function () {
+            _self.$toast.open('Foto eliminada: thumb')
           }).catch(function (error) {
             // Uh-oh, an error occurred!
             console.log('delete error', error)
@@ -94,6 +106,19 @@ export default {
     },
     updateTags (item, val) {
       photosRef.child(item['.key']).child('tags').set(val)
+    },
+    toggleApprovedPhoto (item) {
+      photosRef.child(item['.key']).transaction(function (child) {
+        if (child) {
+          if (child.approved) {
+            child.approved = false
+          } else {
+            child.approved = true
+          }
+        }
+        return child
+      })
+      // photosRef.child(item['.key']).child('approved').set(true)
     }
   }
 }
