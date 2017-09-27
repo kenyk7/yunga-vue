@@ -1,10 +1,10 @@
 <template>
   <section class="pag-home">
     <transition-group name="list" tag="div" class="masonry">
-      <div class="masonry__item" v-for="(item, index) in photos" :key="item.src">
-        <card-photo :photo="item">
-          <figure @click="$photoswipe.open(index, photos)" class="preview-img-item">
-            <img :src="item.thumbnail" :alt="item.tags">
+      <div class="masonry__item" v-for="(item, index) in photos" :key="item['.key']">
+        <card-photo :photo="item.data">
+          <figure @click="$photoswipe.open(index, photosSwipe)" class="preview-img-item">
+            <img :src="item.data.thumbnail" :alt="item.tags">
           </figure>
         </card-photo>
       </div>
@@ -24,6 +24,15 @@ export default {
   computed: {
     photos () {
       return this.$store.getters.photos
+    },
+    photosSwipe () {
+      return this.photos.map(function (item) {
+        return {
+          src: item.data.src,
+          w: item.data.w,
+          h: item.data.h
+        }
+      })
     }
   },
   created () {

@@ -57,7 +57,7 @@ export default {
   methods: {
     onStarClicked () {
       const key = this.photo['.key']
-      this.toggleStar(photosRef.child(key), this.$store.state.auth.uid)
+      this.toggleStar(photosRef.child(key).child('data'), this.$store.state.auth.uid)
     },
     toggleStar (photoRef, uid) {
       photoRef.transaction(function (item) {

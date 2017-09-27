@@ -126,7 +126,7 @@ export default {
           _self.photo.thumbnail = snapshotThumb.downloadURL
           _self.photo.uid = _self.uid
           _self.photo.author = _self.author
-          refPhotos.child(key).update(_self.photo)
+          refPhotos.child(key).child('data').update(_self.photo)
           _self.loading = false
           // reset data
           _self.image = ''

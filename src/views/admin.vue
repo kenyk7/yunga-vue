@@ -1,11 +1,11 @@
 <template>
   <section class="pag-admin">
     <transition-group name="list" tag="div" class="masonry">
-      <div class="masonry__item" v-for="(item, index) in photos" :key="item.src">
+      <div class="masonry__item" v-for="(item, index) in photos" :key="item.data.src">
         <div class="card">
           <div class="card-image">
             <figure class="image">
-              <img :src="item.thumbnail" alt="Image" @click="$photoswipe.open(index, photos)" class="preview-img-item">
+              <img :src="item.data.thumbnail" alt="Image" @click="$photoswipe.open(index, photosSwipe)" class="preview-img-item">
             </figure>
           </div>
           <footer class="card-footer">
@@ -20,13 +20,13 @@
                       <div class="field">
                         <label class="label">¿Qué hay en esta foto?</label>
                         <div class="control">
-                          <input class="input" :value="item.tags" type="text"
+                          <input class="input" :value="item.data.tags" type="text"
                           placeholder="catarata, cueva, lajas" required
                           @input="updateTags(item, $event.target.value)">
                         </div>
                       </div>
                       <div>
-                        <span v-for="(tag, index) in getTags(item.tags)" :key="tag" v-if="tag"
+                        <span v-for="(tag, index) in getTags(item.data.tags)" :key="tag" v-if="tag"
                         class="tag is-info" style="margin-right: 3px">
                           {{tag}}
                         </span>
@@ -38,7 +38,7 @@
             </div>
             <a class="card-footer-item">
               <b-icon icon="heart"></b-icon>
-              <span>{{item.starCount}}</span>
+              <span>{{item.data.starCount}}</span>
             </a>
             <a class="card-footer-item" @click="toggleApprovedPhoto(item)" title="Toggle approved">
               <b-icon v-if="!item.approved" icon="check"></b-icon>
@@ -70,13 +70,22 @@ export default {
   computed: {
     photos () {
       return this.$store.state.photos
+    },
+    photosSwipe () {
+      return this.photos.map(function (item) {
+        return {
+          src: item.data.src,
+          w: item.data.w,
+          h: item.data.h
+        }
+      })
     }
   },
   created () {
     const _self = this
     setTimeout(function () {
       const uid = _self.$store.state.auth.uid
-      _self.$store.dispatch('setPhotosRef', lastPhotos.orderByChild('uid').equalTo(uid))
+      _self.$store.dispatch('setPhotosRef', lastPhotos.orderByChild('data/uid').equalTo(uid))
     }, 1000)
   },
   methods: {
@@ -109,10 +118,11 @@ export default {
       })
     },
     updateTags (item, val) {
-      photosRef.child(item['.key']).child('tags').set(val)
+      photosRef.child(item['.key']).child('data/tags').set(val)
     },
     toggleApprovedPhoto (item) {
       photosRef.child(item['.key']).transaction(function (child) {
+        console.log('toggle', child)
         if (child) {
           if (child.approved) {
             child.approved = false
@@ -122,7 +132,6 @@ export default {
         }
         return child
       })
-      // photosRef.child(item['.key']).child('approved').set(true)
     }
   }
 }
