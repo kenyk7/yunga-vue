@@ -41,7 +41,7 @@
           <div class="navbar-end">
             <b-dropdown v-if="auth" hoverable position="is-bottom-left">
               <a class="navbar-item" slot="trigger">
-                <span>{{auth.displayName}}</span>
+                <span>{{auth.username}}</span>
                 <b-icon icon="user"></b-icon>
               </a>
               <b-dropdown-item has-link>
@@ -51,7 +51,7 @@
                 </router-link>
               </b-dropdown-item>
               <b-dropdown-item has-link>
-                <router-link to="/admin" >
+                <router-link to="/gallery" >
                   <b-icon icon="picture-o"></b-icon>
                   Mis fotos
                 </router-link>
@@ -105,7 +105,7 @@ export default {
   },
   computed: {
     auth () {
-      return this.$store.state.auth
+      return this.$store.state.user
     }
   },
   methods: {
@@ -113,8 +113,6 @@ export default {
       Firebase.auth().signOut().then(function () {
         console.log('logout')
         location.reload()
-      }, function (error) {
-        console.log(error)
       })
     }
   }

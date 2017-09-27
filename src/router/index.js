@@ -45,8 +45,8 @@ const router = new Router({
       }
     },
     {
-      path: '/admin',
-      name: 'Admin',
+      path: '/gallery',
+      name: 'Gallery',
       component: Admin,
       meta: {
         auth: true

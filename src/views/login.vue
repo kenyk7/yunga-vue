@@ -7,7 +7,7 @@
           <span class="icon is-small is-left">
             <i class="fa fa-envelope"></i>
           </span>
-          <input class="input" v-model="auth.email" type="email" placeholder="Username">
+          <input class="input" v-model="auth.email" type="email" placeholder="Email">
         </div>
       </div>
       <div class="field">
@@ -87,26 +87,34 @@ export default {
   methods: {
     // register
     register () {
+      const _self = this
       auth.createUserWithEmailAndPassword(this.auth.email, this.auth.password).catch(function (error) {
-        console.log(error)
+        _self.$toast.open({
+          message: 'Register failed' + error,
+          type: 'is-danger'
+        })
       })
     },
     // auth
     login () {
       const _self = this
       auth.signInWithEmailAndPassword(this.auth.email, this.auth.password).then((res) => {
-        const redirect = _self.$route.query.redirect
         this.$store.commit('setAuth', Firebase.auth().currentUser)
-        _self.$router.push({path: redirect})
       }).catch(function (error) {
-        console.log(error)
+        _self.$toast.open({
+          duration: 10000,
+          message: 'Login failed' + error,
+          type: 'is-danger'
+        })
       })
     },
     loginWithGoogle () {
-      auth.signInWithPopup(provider).then(function (res) {
-        console.log('login success')
-      }).catch(function (error) {
-        console.log(error)
+      const _self = this
+      auth.signInWithPopup(provider).catch(function (error) {
+        _self.$toast.open({
+          message: 'Login failed' + error,
+          type: 'is-danger'
+        })
       })
     }
   }

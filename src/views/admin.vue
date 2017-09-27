@@ -61,7 +61,7 @@ const storageRef = Firebase.storage().ref()
 const lastPhotos = photosRef.limitToLast(16)
 
 export default {
-  name: 'admin',
+  name: 'gallery',
   data () {
     return {
       navigation: 'home'
@@ -84,9 +84,13 @@ export default {
   created () {
     const _self = this
     setTimeout(function () {
-      const uid = _self.$store.state.auth.uid
-      _self.$store.dispatch('setPhotosRef', lastPhotos.orderByChild('data/uid').equalTo(uid))
-    }, 1000)
+      if (!_self.$store.state.user.admin) {
+        const uid = _self.$store.state.auth.uid
+        _self.$store.dispatch('setPhotosRef', lastPhotos.orderByChild('data/uid').equalTo(uid))
+      } else {
+        _self.$store.dispatch('setPhotosRef', lastPhotos)
+      }
+    }, 1500)
   },
   methods: {
     getTags (tags) {
@@ -97,22 +101,26 @@ export default {
       this.$dialog.confirm({
         message: '¿Estás seguro que deseas eliminar?',
         onConfirm: () => {
-          const desertRef = storageRef.child('uploads/photos/' + item['.key'])
-          const desertRefThumb = storageRef.child('uploads/photos/thumbs/' + item['.key'])
-          // delete photo
-          desertRef.delete().then(function () {
-            photosRef.child(item['.key']).remove()
-            _self.$toast.open('Foto eliminada')
+          photosRef.child(item['.key']).remove().then(function () {
+            const desertRef = storageRef.child('uploads/photos/' + item['.key'])
+            const desertRefThumb = storageRef.child('uploads/photos/thumbs/' + item['.key'])
+            // delete photo
+            desertRef.delete().then(function () {
+              _self.$toast.open('Foto eliminada')
+            }).catch(function (error) {
+              console.log('delete error', error)
+            })
+            // delete photo thumb
+            desertRefThumb.delete().then(function () {
+              _self.$toast.open('Foto eliminada: thumb')
+            }).catch(function (error) {
+              console.log('delete error', error)
+            })
           }).catch(function (error) {
-            // Uh-oh, an error occurred!
-            console.log('delete error', error)
-          })
-          // delete photo thumb
-          desertRefThumb.delete().then(function () {
-            _self.$toast.open('Foto eliminada: thumb')
-          }).catch(function (error) {
-            // Uh-oh, an error occurred!
-            console.log('delete error', error)
+            _self.$toast.open({
+              message: error + '!',
+              type: 'is-danger'
+            })
           })
         }
       })

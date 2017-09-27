@@ -23,6 +23,7 @@ export default {
   methods: {
     onAuthStateChanged (user) {
       if (user) {
+        console.log('new user data', user)
         this.$store.dispatch('setUser', usersRef.child(user.uid))
         this.$store.commit('setAuth', user)
         // We ignore token refresh events.
@@ -31,10 +32,11 @@ export default {
           if (this.$store.state.user.email) {
             return
           }
+          const username = user.email.split('@')[0]
           usersRef.child(user.uid).set({
-            username: user.displayName,
+            username: user.displayName || username,
             email: user.email,
-            profile_picture: user.photoURL
+            profile_picture: user.photoURL || 'https://via.placeholder.com/250x250?text=' + username
           })
         }, 1500)
       }
