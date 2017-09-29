@@ -4,7 +4,7 @@
       <div class="container">
         <div class="navbar-brand">
           <router-link to="/" class="nav-item navbar-logo">
-            <img src="static/img/Logomakr_8lInv7.png" alt="Yunga">
+            <img src="static/img/yunga.png" alt="Yunga">
           </router-link>
           <div class="navbar-item navbar-mobile is-hidden-desktop">
             <router-link to="/submit" class="button is-primary is-small">
@@ -26,9 +26,9 @@
               </router-link>
             </b-dropdown-item>
             <b-dropdown-item has-link>
-              <router-link to="/admin" >
+              <router-link to="/gallery" >
                 <b-icon icon="picture-o"></b-icon>
-                Admin
+                Mis fotos
               </router-link>
             </b-dropdown-item>
             <b-dropdown-item @click="logout">
