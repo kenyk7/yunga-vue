@@ -40,11 +40,15 @@
               <b-icon icon="heart"></b-icon>
               <span>{{item.data.starCount}}</span>
             </a>
-            <a class="card-footer-item" @click="toggleApprovedPhoto(item)" title="Toggle approved">
+            <a v-if="user.admin" class="card-footer-item" @click="toggleApprovedPhoto(item)" title="Toggle approved">
               <b-icon v-if="!item.approved" icon="check"></b-icon>
               <b-icon v-if="item.approved" icon="close"></b-icon>
             </a>
-            <a class="card-footer-item" @click="deletePhoto(item)">
+            <a v-if="!user.admin" class="card-footer-item" title="Aprobación">
+              <b-icon v-if="!item.approved" icon="check"></b-icon>
+              <b-icon v-if="item.approved" icon="close"></b-icon>
+            </a>
+            <a v-if="user.admin" class="card-footer-item" @click="deletePhoto(item)">
               <b-icon icon="trash"></b-icon>
             </a>
           </footer>
@@ -68,6 +72,9 @@ export default {
     }
   },
   computed: {
+    user () {
+      return this.$store.state.user
+    },
     photos () {
       return this.$store.state.photos
     },
