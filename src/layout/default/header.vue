@@ -79,10 +79,10 @@
       <div class="container has-text-centered">
         <br>
         <h1 class="title is-1">
-          Santa Rosa - Yunga
+          Santa Rosa - Jaén
         </h1>
         <h2 class="subtitle is-6">
-          Sitio web sobre fotografía para el distrito Santa Rosa
+          Fotos del distrito Santa Rosa, Jaén - Cajamarca
         </h2>
         <b-field position="is-centered">
           <b-input placeholder="catarata, cueva, lajas" type="search" icon="search">
@@ -152,7 +152,7 @@ export default {
     padding: 4rem 1.5rem;
   }
   .title.is-1{
-    font-size: 2rem;
+    font-size: 2.1rem;
   }
   .subtitle.is-6{
     font-size: 0.8rem;
