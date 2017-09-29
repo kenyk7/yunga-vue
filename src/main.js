@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import Firebase from 'firebase'
 import Buefy from 'buefy'
-import VuePhotoSwipe from 'vue-photoswipe'
+import VuePhotoSwipe from './plugins/PhotoSwipe'
 
 import App from './App'
 import router from './router'
