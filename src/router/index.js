@@ -66,7 +66,7 @@ const router = new Router({
 // http://router.vuejs.org/en/advanced/meta.html
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.auth)) {
-    if (!Firebase.auth().currentUser) {
+    if (Firebase.auth().currentUser.isAnonymous) {
       next({
         path: '/login',
         query: {

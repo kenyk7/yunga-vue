@@ -139,6 +139,7 @@ export default {
 }
 .hero-body{
   margin-top: 3rem;
+  padding: 4.2rem 1.8rem;
   background-size: cover;
   background-position: center;
   .title,
@@ -148,14 +149,11 @@ export default {
 }
 
 @media screen and (max-width: 575px) {
-  .hero-body{
-    padding: 4rem 1.5rem;
-  }
   .title.is-1{
-    font-size: 2.1rem;
+    font-size: 2rem;
   }
   .subtitle.is-6{
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 }
 

@@ -1,8 +1,8 @@
 <template>
   <div class="card-photo">
     <a href="#" @click.prevent="" class="card-photo__user">
-      <img :src="photo.author.profile_picture" :alt="photo.author.username" width="35" height="35">
-      <h5>{{photo.author.username}}</h5>
+      <img :src="photo.data.author.profile_picture" :alt="photo.data.author.username" width="35" height="35">
+      <h5>{{photo.data.author.username}}</h5>
     </a>
     <div class="card-photo__img image">
       <slot></slot>
@@ -11,7 +11,7 @@
       <div left>
         <a class="button" @click.prevent="onStarClicked()">
           <b-icon icon="heart" class="is-danger"></b-icon>
-          <span>{{photo.starCount}}</span>
+          <span>{{photo.stars.count}}</span>
         </a>
         <span>&nbsp;</span>
         <b-dropdown hoverable position="is-top-right" class="is-hidden">
@@ -30,11 +30,11 @@
         </b-dropdown>
       </div>
       <div right>
-        <a class="button" :href="photo.src" target="_blank">
+        <a class="button" :href="photo.data.src" target="_blank">
           <b-icon icon="external-link"></b-icon>
         </a>
         <span>&nbsp;</span>
-        <a class="button" :href="photo.src" target="_blank">
+        <a class="button" :href="photo.data.src" target="_blank">
           <b-icon icon="download"></b-icon>
         </a>
       </div>
@@ -57,20 +57,20 @@ export default {
   methods: {
     onStarClicked () {
       const key = this.photo['.key']
-      this.toggleStar(photosRef.child(key).child('data'), this.$store.state.auth.uid)
+      this.toggleStar(photosRef.child(key).child('stars'), this.$store.state.auth.uid)
     },
     toggleStar (photoRef, uid) {
       photoRef.transaction(function (item) {
         if (item) {
-          if (item.stars && item.stars[uid]) {
-            item.starCount--
-            item.stars[uid] = null
+          if (item.users && item.users[uid]) {
+            item.count--
+            item.users[uid] = null
           } else {
-            item.starCount++
-            if (!item.stars) {
-              item.stars = {}
+            item.count++
+            if (!item.users) {
+              item.users = {}
             }
-            item.stars[uid] = true
+            item.users[uid] = true
           }
         }
         return item

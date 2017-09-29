@@ -22,14 +22,14 @@ export default {
   },
   methods: {
     onAuthStateChanged (user) {
-      if (user) {
-        console.log('new user data', user)
-        this.$store.dispatch('setUser', usersRef.child(user.uid))
-        this.$store.commit('setAuth', user)
+      const _self = this
+      if (user && !user.isAnonymous) {
+        _self.$store.dispatch('setUser', usersRef.child(user.uid))
+        _self.$store.commit('setAuth', user)
         // We ignore token refresh events.
         setTimeout(() => {
           // exist user
-          if (this.$store.state.user.email) {
+          if (_self.$store.state.user.email) {
             return
           }
           const username = user.email.split('@')[0]
@@ -39,6 +39,9 @@ export default {
             profile_picture: user.photoURL || 'https://via.placeholder.com/250x250?text=' + username
           })
         }, 1500)
+      } else {
+        Firebase.auth().signInAnonymously()
+        _self.$store.commit('setAuth', user)
       }
     }
   }

@@ -38,7 +38,7 @@
             </div>
             <a class="card-footer-item">
               <b-icon icon="heart"></b-icon>
-              <span>{{item.data.starCount}}</span>
+              <span>{{item.stars.count}}</span>
             </a>
             <a v-if="user.admin" class="card-footer-item" @click="toggleApprovedPhoto(item)" title="Toggle approved">
               <b-icon v-if="!item.approved" icon="check"></b-icon>
@@ -137,7 +137,6 @@ export default {
     },
     toggleApprovedPhoto (item) {
       photosRef.child(item['.key']).transaction(function (child) {
-        console.log('toggle', child)
         if (child) {
           if (child.approved) {
             child.approved = false

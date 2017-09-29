@@ -2,7 +2,7 @@
   <section class="pag-home">
     <transition-group name="list" tag="div" class="masonry">
       <div class="masonry__item" v-for="(item, index) in photos" :key="item['.key']">
-        <card-photo :photo="item.data">
+        <card-photo :photo="item">
           <figure @click="$photoswipe.open(index, photosSwipe)" class="preview-img-item">
             <img :src="item.data.thumbnail" :alt="item.tags">
           </figure>

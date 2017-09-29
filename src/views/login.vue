@@ -77,10 +77,8 @@ export default {
   created () {
     const _self = this
     auth.onAuthStateChanged((user) => {
-      if (user) {
-        setTimeout(function () {
-          _self.$router.push({name: 'Home'})
-        }, 500)
+      if (user && !user.isAnonymous) {
+        _self.$router.push({name: 'Home'})
       }
     })
   },
