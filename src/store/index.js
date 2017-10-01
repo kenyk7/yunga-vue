@@ -9,12 +9,15 @@ export default new Vuex.Store({
   state: {
     user: null,
     auth: null,
-    itemsPerPage: 16,
-    photos: []
+    itemsPerPage: 15,
+    photos: [],
+    myPhotos: []
   },
   getters: {
+    user: state => state.user,
+    auth: state => state.auth,
     photos: state => state.photos,
-    user: state => state.user
+    myPhotos: state => state.myPhotos
   },
   mutations: {
     ...firebaseMutations,
@@ -25,6 +28,9 @@ export default new Vuex.Store({
   actions: {
     setPhotosRef: firebaseAction(({bindFirebaseRef}, ref) => {
       bindFirebaseRef('photos', ref)
+    }),
+    setMyPhotosRef: firebaseAction(({bindFirebaseRef}, ref) => {
+      bindFirebaseRef('myPhotos', ref)
     }),
     setUser: firebaseAction(({bindFirebaseRef}, ref) => {
       bindFirebaseRef('user', ref)

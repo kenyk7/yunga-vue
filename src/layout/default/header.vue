@@ -56,6 +56,12 @@
                   Mis fotos
                 </router-link>
               </b-dropdown-item>
+              <b-dropdown-item has-link v-if="auth.admin">
+                <router-link to="/admin" >
+                  <b-icon icon="picture-o"></b-icon>
+                  Admin
+                </router-link>
+              </b-dropdown-item>
               <b-dropdown-item @click="logout">
                 <b-icon icon="sign-out"></b-icon>
                 <span>Logout</span>

@@ -10,7 +10,7 @@
     <div class="card-photo__actions">
       <div left>
         <a class="button" @click.prevent="onStarClicked()">
-          <b-icon icon="heart" class="is-danger"></b-icon>
+          <b-icon icon="heart" :class="{'is-danger': isStarMe(photo.stars.users)}"></b-icon>
           <span>{{photo.stars.count}}</span>
         </a>
         <span>&nbsp;</span>
@@ -45,6 +45,7 @@
 <script>
 import api from '../api'
 const photosRef = api.child('photos')
+const myPhotosRef = api.child('myPhotos')
 export default {
   props: {
     photo: {
@@ -54,13 +55,23 @@ export default {
       }
     }
   },
+  computed: {
+    auth () {
+      return this.$store.state.auth
+    }
+  },
   methods: {
+    isStarMe (users) {
+      return users ? hasOwnProperty.call(users, this.auth.uid) : false
+    },
     onStarClicked () {
       const key = this.photo['.key']
-      this.toggleStar(photosRef.child(key).child('stars'), this.$store.state.auth.uid)
+      const uid = this.photo.data.uid
+      this.toggleStar(photosRef.child(key), this.auth.uid)
+      this.toggleStar(myPhotosRef.child(uid).child(key), this.auth.uid)
     },
     toggleStar (photoRef, uid) {
-      photoRef.transaction(function (item) {
+      photoRef.child('stars').transaction(function (item) {
         if (item) {
           if (item.users && item.users[uid]) {
             item.count--

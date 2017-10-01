@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="block-uploader">
+    <form @submit.prevent="submitData()" class="block-uploader">
       <canvas class="is-hidden"></canvas>
       <b-field>
         <picture-input
@@ -35,7 +35,7 @@
         </div>
         <div class="field">
           <div class="control has-text-right">
-            <button @click="submitData" class="button is-primary" :class="{'is-loading': loading}" :disabled="!isValid || loading">
+            <button type="submit" class="button is-primary" :class="{'is-loading': loading}" :disabled="!isValid || loading">
               <span class="icon is-small">
                 <i class="fa fa-send"></i>
               </span>
@@ -44,13 +44,14 @@
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </main>
 </template>
 <script>
 import Firebase from 'firebase'
 import api from '../api'
 const refPhotos = api.child('photos')
+// const refMyPhotos = api.child('myPhotos')
 const storageRef = Firebase.storage().ref()
 import PictureInput from 'vue-picture-input'
 
@@ -63,7 +64,7 @@ export default {
     return {
       loading: false,
       customPicture: {
-        drag: 'Arrastre o haga clic aquí para seleccionar una foto',
+        drag: 'Haz clic aquí para seleccionar una foto',
         tap: 'Toque aquí para seleccionar una foto de su galería',
         change: 'Eligir otra foto',
         remove: 'Eliminar foto'
@@ -125,7 +126,12 @@ export default {
           _self.photo.thumbnail = snapshotThumb.downloadURL
           _self.photo.uid = _self.uid
           _self.photo.author = _self.author
-          refPhotos.child(key).update({data: _self.photo, stars: {count: 0}})
+          const photo = {
+            data: _self.photo,
+            stars: {count: 0}
+          }
+          refPhotos.child(key).update(photo)
+          // refMyPhotos.child(_self.uid).child(key).update(photo)
           _self.loading = false
           // reset data
           _self.image = ''
@@ -172,8 +178,8 @@ export default {
     resizeImg (img) {
       const _self = this
       const canvas = this.$el.querySelector('canvas')
-      var MAX_WIDTH = 500
-      var MAX_HEIGHT = 900
+      var MAX_WIDTH = 750
+      var MAX_HEIGHT = 1300
       var width = img.width
       var height = img.height
 

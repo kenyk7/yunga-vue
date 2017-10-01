@@ -6,7 +6,7 @@
       </div>
       <h2 class="title is-2">{{user.username}}</h2>
     </div>
-    <div class="pag-profile__tags">
+    <div class="pag-profile__tags is-hidden">
       <b-field grouped group-multiline>
         <div class="control">
           <b-taglist attached>
