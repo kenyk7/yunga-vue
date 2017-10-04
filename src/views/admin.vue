@@ -42,13 +42,13 @@
                 <b-icon icon="heart" :class="{'is-danger': isStarMe(item.stars.users)}"></b-icon>
                 <span>{{item.stars.count}}</span>
               </a>
-              <a v-if="user.admin" class="card-footer-item" @click="toggleApprovedPhoto(item)" title="Toggle approved">
+              <a v-if="user.admin" class="card-footer-item" @click="onToggleApproved(item)" title="Toggle approved">
                 <b-icon v-if="!item.approved" icon="check"></b-icon>
-                <b-icon v-if="item.approved" icon="close"></b-icon>
+                <b-icon v-else icon="close"></b-icon>
               </a>
-              <a v-if="!user.admin" class="card-footer-item" title="Aprobación">
-                <b-icon v-if="!item.approved" icon="check"></b-icon>
-                <b-icon v-if="item.approved" icon="close"></b-icon>
+              <a v-else class="card-footer-item" title="Aprobación">
+                <b-icon v-if="item.approved" icon="check"></b-icon>
+                <b-icon v-else icon="close"></b-icon>
               </a>
               <a v-if="user.admin" class="card-footer-item" @click="deletePhoto(item)">
                 <b-icon icon="trash"></b-icon>
@@ -203,8 +203,13 @@ export default {
     updateTags (item, val) {
       photosRef.child(item['.key']).child('data/tags').set(val)
     },
-    toggleApprovedPhoto (item) {
-      photosRef.child(item['.key']).transaction(function (child) {
+    onToggleApproved (item) {
+      const key = item['.key']
+      this.toggleApprovedPhoto(photosRef.child(key))
+      this.toggleApprovedPhoto(myPhotosRef.child(item.data.uid).child(key))
+    },
+    toggleApprovedPhoto (photoRef) {
+      photoRef.transaction(function (child) {
         if (child) {
           if (child.approved) {
             child.approved = false

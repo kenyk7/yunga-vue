@@ -28,6 +28,7 @@
         </div>
       </b-field>
     </div>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio sequi dolorum recusandae magni nisi nemo culpa consequuntur asperiores dolorem dolore. Repudiandae deserunt, obcaecati ea sunt! A, deleniti. Ea, consequuntur, nobis.</p>
   </div>
 </template>
 <script>

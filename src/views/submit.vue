@@ -126,9 +126,14 @@ export default {
           _self.photo.thumbnail = snapshotThumb.downloadURL
           _self.photo.uid = _self.uid
           _self.photo.author = _self.author
+          const stars = {
+            count: 1,
+            users: {}
+          }
+          stars.users[_self.uid] = true
           const photo = {
             data: _self.photo,
-            stars: {count: 0}
+            stars
           }
           refPhotos.child(key).update(photo)
           refMyPhotos.child(_self.uid).child(key).update(photo)
