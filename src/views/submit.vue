@@ -51,7 +51,7 @@
 import Firebase from 'firebase'
 import api from '../api'
 const refPhotos = api.child('photos')
-// const refMyPhotos = api.child('myPhotos')
+const refMyPhotos = api.child('myPhotos')
 const storageRef = Firebase.storage().ref()
 import PictureInput from 'vue-picture-input'
 
@@ -131,7 +131,7 @@ export default {
             stars: {count: 0}
           }
           refPhotos.child(key).update(photo)
-          // refMyPhotos.child(_self.uid).child(key).update(photo)
+          refMyPhotos.child(_self.uid).child(key).update(photo)
           _self.loading = false
           // reset data
           _self.image = ''

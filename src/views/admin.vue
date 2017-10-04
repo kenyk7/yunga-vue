@@ -74,7 +74,7 @@
       <h2 class="title is-2">Sin resultados</h2>
       <p>Sube tus fotos para poder visualizarlas aquí</p>
     </div>
-    <pre>{{myPhotos}}</pre>
+    <!-- <pre>{{myPhotos}}</pre> -->
   </section>
 </template>
 <script>
