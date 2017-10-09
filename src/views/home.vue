@@ -13,7 +13,7 @@
 </template>
 <script>
 import api from '../api'
-const refPhotos = api.child('photos').limitToLast(16).orderByChild('approved').equalTo(true)
+const refPhotos = api.child('photos').limitToLast(21).orderByChild('approved').equalTo(true)
 import cardPhoto from '@/components/cardPhoto'
 
 export default {

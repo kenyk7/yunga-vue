@@ -74,7 +74,6 @@
       <h2 class="title is-2">Sin resultados</h2>
       <p>Sube tus fotos para poder visualizarlas aquí</p>
     </div>
-    <!-- <pre>{{myPhotos}}</pre> -->
   </section>
 </template>
 <script>
@@ -83,7 +82,7 @@ import api from '../api'
 import { mapGetters } from 'vuex'
 
 const photosRef = api.child('photos')
-const myPhotosRef = api.child('myPhotos')
+const myPhotosRef = api.child('user-photos')
 
 const storageRef = Firebase.storage().ref()
 const lastPhotos = photosRef.orderByKey()

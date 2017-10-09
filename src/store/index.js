@@ -9,7 +9,7 @@ export default new Vuex.Store({
   state: {
     user: null,
     auth: null,
-    itemsPerPage: 15,
+    itemsPerPage: 21,
     photos: [],
     myPhotos: []
   },

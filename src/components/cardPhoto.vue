@@ -45,7 +45,8 @@
 <script>
 import api from '../api'
 const photosRef = api.child('photos')
-const myPhotosRef = api.child('myPhotos')
+const usersRef = api.child('users')
+const myPhotosRef = api.child('user-photos')
 export default {
   props: {
     photo: {
@@ -65,10 +66,14 @@ export default {
       return users ? hasOwnProperty.call(users, this.auth.uid) : false
     },
     onStarClicked () {
+      const _self = this
       const key = this.photo['.key']
       const uid = this.photo.data.uid
       this.toggleStar(photosRef.child(key), this.auth.uid)
       this.toggleStar(myPhotosRef.child(uid).child(key), this.auth.uid)
+      if (!this.auth.isAnonymous) {
+        _self.toggleLikeUser(_self.auth.uid, key)
+      }
     },
     toggleStar (photoRef, uid) {
       photoRef.child('stars').transaction(function (item) {
@@ -82,6 +87,28 @@ export default {
               item.users = {}
             }
             item.users[uid] = true
+          }
+        }
+        return item
+      })
+    },
+    toggleLikeUser () {
+      const _self = this
+      const uid = this.auth.uid
+      const keyPhoto = this.photo['.key']
+      usersRef.child(uid).child('likes').transaction(function (item) {
+        if (item) {
+          if (item.photos && item.photos[keyPhoto]) {
+            item.count--
+            item.photos[keyPhoto] = null
+          } else {
+            item.count++
+            if (!item.photos) {
+              item.photos = {}
+            }
+            item.photos[keyPhoto] = {
+              thumbnail: _self.photo.data.src
+            }
           }
         }
         return item
@@ -102,6 +129,7 @@ export default {
     }
   }
   .button{
+    border: 0;
     height: 2rem;
   }
   &__user{

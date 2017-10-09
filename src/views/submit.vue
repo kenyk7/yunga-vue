@@ -51,7 +51,7 @@
 import Firebase from 'firebase'
 import api from '../api'
 const refPhotos = api.child('photos')
-const refMyPhotos = api.child('myPhotos')
+const refMyPhotos = api.child('user-photos')
 const storageRef = Firebase.storage().ref()
 import PictureInput from 'vue-picture-input'
 
