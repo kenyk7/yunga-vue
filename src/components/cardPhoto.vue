@@ -70,7 +70,7 @@ export default {
       const key = this.photo['.key']
       const uid = this.photo.data.uid
       this.toggleStar(photosRef.child(key), this.auth.uid)
-      this.toggleStar(myPhotosRef.child(uid).child(key), this.auth.uid)
+      this.toggleStar(myPhotosRef.child(uid + '/photos/' + key), this.auth.uid)
       if (!this.auth.isAnonymous) {
         _self.toggleLikeUser(_self.auth.uid, key)
       }

@@ -50,6 +50,7 @@
 <script>
 import Firebase from 'firebase'
 import api from '../api'
+const usersRef = api.child('users')
 const refPhotos = api.child('photos')
 const refMyPhotos = api.child('user-photos')
 const storageRef = Firebase.storage().ref()
@@ -136,7 +137,9 @@ export default {
             stars
           }
           refPhotos.child(key).update(photo)
-          refMyPhotos.child(_self.uid).child(key).update(photo)
+          refMyPhotos.child(_self.uid + '/photos/' + key).update(photo)
+          _self.addCountMyPhotos(refMyPhotos.child(_self.uid))
+          _self.toggleLikeUser(key, photo.data.thumbnail)
           _self.loading = false
           // reset data
           _self.image = ''
@@ -159,6 +162,34 @@ export default {
           type: 'is-danger'
         })
         _self.loading = false
+      })
+    },
+    addCountMyPhotos (ref) {
+      ref.transaction(function (item) {
+        if (item) {
+          if (!item.count) {
+            item.count = 0
+          }
+          item.count++
+        }
+        return item
+      })
+    },
+    toggleLikeUser (keyPhoto, thumbnail) {
+      usersRef.child(this.uid).child('likes').transaction(function (item) {
+        if (item) {
+          if (item.photos && item.photos[keyPhoto]) {
+            item.count--
+            item.photos[keyPhoto] = null
+          } else {
+            item.count++
+            if (!item.photos) {
+              item.photos = {}
+            }
+            item.photos[keyPhoto] = {thumbnail}
+          }
+        }
+        return item
       })
     },
     createReader (file, whenReady) {

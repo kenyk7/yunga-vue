@@ -141,9 +141,9 @@ export default {
           }
         } else {
           if (lastKey) {
-            _self.loadDataType(lastMyPhotos.child(_self.auth.uid).orderByKey().endAt(lastKey))
+            _self.loadDataType(lastMyPhotos.child(_self.auth.uid + '/photos').orderByKey().endAt(lastKey))
           } else {
-            _self.loadDataType(lastMyPhotos.child(_self.auth.uid).orderByKey())
+            _self.loadDataType(lastMyPhotos.child(_self.auth.uid + '/photos').orderByKey())
           }
         }
         _self.isLoading = false
@@ -205,7 +205,7 @@ export default {
     onToggleApproved (item) {
       const key = item['.key']
       this.toggleApprovedPhoto(photosRef.child(key))
-      this.toggleApprovedPhoto(myPhotosRef.child(item.data.uid).child(key))
+      this.toggleApprovedPhoto(myPhotosRef.child(item.data.uid + '/photos/' + key))
     },
     toggleApprovedPhoto (photoRef) {
       photoRef.transaction(function (child) {
