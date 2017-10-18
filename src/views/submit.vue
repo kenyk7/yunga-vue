@@ -137,8 +137,8 @@ export default {
             stars
           }
           refPhotos.child(key).update(photo)
-          refMyPhotos.child(_self.uid + '/photos/' + key).update(photo)
-          _self.addCountMyPhotos(refMyPhotos.child(_self.uid))
+          refMyPhotos.child(_self.uid).child(key).update(photo)
+          _self.addCountMyPhotos()
           _self.toggleLikeUser(key, photo.data.thumbnail)
           _self.loading = false
           // reset data
@@ -164,8 +164,8 @@ export default {
         _self.loading = false
       })
     },
-    addCountMyPhotos (ref) {
-      ref.transaction(function (item) {
+    addCountMyPhotos () {
+      usersRef.child(this.uid).child('photos').transaction(function (item) {
         if (item) {
           if (!item.count) {
             item.count = 0

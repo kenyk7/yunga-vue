@@ -37,7 +37,8 @@ export default {
             username: user.displayName || username,
             email: user.email,
             profile_picture: user.photoURL || 'https://via.placeholder.com/250x250?text=' + username,
-            likes: {count: 0}
+            likes: {count: 0},
+            photos: {count: 0}
           })
         }, 1500)
       } else {

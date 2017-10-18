@@ -141,9 +141,9 @@ export default {
           }
         } else {
           if (lastKey) {
-            _self.loadDataType(lastMyPhotos.child(_self.auth.uid + '/photos').orderByKey().endAt(lastKey))
+            _self.loadDataType(lastMyPhotos.child(_self.auth.uid).orderByKey().endAt(lastKey))
           } else {
-            _self.loadDataType(lastMyPhotos.child(_self.auth.uid + '/photos').orderByKey())
+            _self.loadDataType(lastMyPhotos.child(_self.auth.uid).orderByKey())
           }
         }
         _self.isLoading = false
