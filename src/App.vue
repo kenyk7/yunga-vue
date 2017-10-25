@@ -1,7 +1,9 @@
 <template>
   <div class="main-app">
     <tpl-default>
-      <router-view></router-view>
+      <transition name="fade" appear mode="out-in">
+        <router-view></router-view>
+      </transition>
     </tpl-default>
   </div>
 </template>
@@ -49,3 +51,15 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.fade-enter-active, .fade-leave-active {
+  transition: all .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+.loading-overlay .loading-background{
+  background: rgba(#111, 0.9);
+}
+</style>

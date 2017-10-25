@@ -11,6 +11,7 @@ export default new Vuex.Store({
     auth: null,
     itemsPerPage: 21,
     photos: [],
+    tmpMorePhotos: [],
     myPhotos: []
   },
   getters: {
@@ -23,11 +24,19 @@ export default new Vuex.Store({
     ...firebaseMutations,
     setAuth (state, payload) {
       state.auth = payload
+    },
+    pushPhotos (state, payload) {
+      state.photos = state.photos.concat(payload)
     }
   },
   actions: {
     setPhotosRef: firebaseAction(({bindFirebaseRef}, ref) => {
       bindFirebaseRef('photos', ref)
+    }),
+    setTmpMorePhotosRef: firebaseAction((context, ref) => {
+      context.bindFirebaseRef('tmpMorePhotos', ref, {readyCallback: function (res) {
+        context.commit('pushPhotos', context.state.tmpMorePhotos)
+      }})
     }),
     setMyPhotosRef: firebaseAction(({bindFirebaseRef}, ref) => {
       bindFirebaseRef('myPhotos', ref)

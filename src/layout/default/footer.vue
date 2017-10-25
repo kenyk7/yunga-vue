@@ -3,10 +3,10 @@
     <div class="container">
       <div class="content has-text-centered">
         <p>
-          <strong>Yunga</strong> by <a href="https://twitter.com/kenyk7">@kenyk7</a>. The source code is licensed
-          <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+          <strong>Yunga</strong> by <a href="https://twitter.com/kenyk7" target="_blank">@kenyk7</a>. The source code is licensed
+          <a href="http://opensource.org/licenses/mit-license.php" target="_blank">MIT</a>.
           <br>
-          The website content is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC ANS 4.0</a>.
+          The website content is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC ANS 4.0</a>.
         </p>
         <p>
           <a class="button is-facebook" target="_blank" href="https://www.facebook.com/YungaSR/">

@@ -31,7 +31,7 @@
     <hr>
     <h5 class="title is-5 has-text-centered">Fotos que me gustaron</h5>
     <transition-group name="list" tag="div" class="masonry">
-      <div class="masonry__item" v-for="(item, index) in plikes" :key="item.thumbnail" v-if="index < 21">
+      <div class="masonry__item" v-for="(item, index) in userListLikes" :key="item.thumbnail" v-if="index < 21">
         <a href="#" class="pag-profile__photo">
           <img :src="item.thumbnail" :alt="user.username">
         </a>
@@ -45,7 +45,7 @@ export default {
     user () {
       return this.$store.getters.user
     },
-    plikes () {
+    userListLikes () {
       const obj = this.user.likes.photos
       return Object.keys(obj).map(key => obj[key])
     }
@@ -63,8 +63,15 @@ export default {
     }
   }
   .masonry{
+    margin-right: 0;
+    margin-left: 0;
     &__item{
-      margin-bottom: 0;
+      column-gap: 10px;
+      margin-bottom: 15px;
+      img{
+        border-radius: 4px;
+        box-shadow: 0 3px 8px rgba(#000, 0.2);
+      }
     }
   }
 }

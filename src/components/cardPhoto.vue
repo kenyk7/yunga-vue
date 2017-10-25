@@ -120,6 +120,7 @@ export default {
 <style lang="scss" scoped>
 .card-photo{
   position: relative;
+  box-shadow: 0 3px 5px rgba(#000, 0.2);
   &:hover{
     .card-photo__user{
       opacity: 1;

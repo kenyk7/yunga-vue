@@ -28,11 +28,11 @@ body{
 
 .masonry{
   column-width: 16em;
-  column-gap: 1.4em;
+  column-gap: 1.6em;
   column-count: 3;
   &__item{
     display: inline-block;
-    margin: 0 0 1.4em;
+    margin: 0 0 1.3em;
     width: 100%;
     break-inside: avoid;
   }

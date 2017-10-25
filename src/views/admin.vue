@@ -88,7 +88,7 @@ export default {
   name: 'gallery',
   data () {
     return {
-      isLoading: false,
+      isLoading: true,
       page: {
         current: 1
       }
@@ -214,6 +214,14 @@ export default {
         }
         return child
       })
+    }
+  },
+  watch: {
+    '$route': {
+      handler () {
+        this.loadData()
+      },
+      deep: true
     }
   }
 }
