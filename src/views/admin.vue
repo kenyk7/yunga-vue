@@ -70,10 +70,6 @@
         </a>
       </nav>
     </div>
-    <div class="has-text-centered" v-else>
-      <h2 class="title is-2">Sin resultados</h2>
-      <p>Sube tus fotos para poder visualizarlas aquí</p>
-    </div>
   </section>
 </template>
 <script>

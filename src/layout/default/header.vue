@@ -96,13 +96,6 @@
         <h2 class="subtitle is-6">
           Fotos del distrito Santa Rosa, Jaén - Cajamarca
         </h2>
-        <b-field position="is-centered">
-          <b-input placeholder="catarata, cueva, lajas" type="search" icon="search">
-          </b-input>
-          <p class="control">
-            <button class="button is-info">Buscar</button>
-          </p>
-        </b-field>
       </div>
     </div>
   </header>
@@ -141,6 +134,16 @@ export default {
 .navbar-mobile{
   margin-left: auto;
 }
+.hero-body{
+  margin-top: 3rem;
+  background-size: cover;
+  background-position: center;
+  .title,
+  .subtitle{
+    color: #fff
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .navbar{
     height: 3.8rem;
@@ -148,15 +151,8 @@ export default {
   .navbar-logo img{
     max-height: 2.2rem;
   }
-}
-.hero-body{
-  margin-top: 3rem;
-  padding: 4.2rem 1.8rem;
-  background-size: cover;
-  background-position: center;
-  .title,
-  .subtitle{
-    color: #fff
+  .hero-body{
+    padding: 5rem 2rem;
   }
 }
 

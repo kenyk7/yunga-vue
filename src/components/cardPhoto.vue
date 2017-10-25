@@ -30,7 +30,7 @@
         </b-dropdown>
       </div>
       <div right>
-        <a class="button" :href="photo.data.src" target="_blank">
+        <a class="button is-hidden" :href="photo.data.src" target="_blank">
           <b-icon icon="external-link"></b-icon>
         </a>
         <span>&nbsp;</span>
@@ -154,7 +154,7 @@ export default {
     min-height: 120px;
   }
   &__actions{
-    padding: 10px 15px;
+    padding: 15px;
     background-image: linear-gradient(rgba(#000, 0), rgba(#000, 1));
     display: flex;
     justify-content: space-between;
