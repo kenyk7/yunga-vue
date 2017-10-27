@@ -5,7 +5,7 @@
     </div>
     <div v-else>
       <transition-group  name="list" tag="div" class="masonry">
-        <div class="masonry__item" v-for="(item, index) in photos" :key="item['.key']" v-if="item.approved">
+        <div class="masonry__item" v-for="(item, index) in photos" :key="item['.key']">
           <card-photo :photo="item">
             <figure @click="$photoswipe.open(index, photosSwipe)" class="preview-img-item">
               <img :src="item.data.thumbnail" :alt="item.tags">
@@ -14,7 +14,7 @@
         </div>
       </transition-group>
       <div class="has-text-centered is-hidden">
-        <button class="button is-primary" @click="loadMore()">Ver más</button>
+        <button class="button is-primary" @click="getMore()">Ver más</button>
       </div>
     </div>
   </section>
@@ -38,6 +38,9 @@ export default {
     itemsPerPage () {
       return this.$store.state.itemsPerPage
     },
+    isMoreItems () {
+      return this.$store.state.isMoreItems
+    },
     photos () {
       return this.$store.getters.photos
     },
@@ -56,12 +59,16 @@ export default {
     this.$store.dispatch('setPhotosRef', refLastPhotos)
   },
   methods: {
-    loadMore () {
-      let index = this.page * this.itemsPerPage
-      const lastKey = this.photos[index]['.key']
-      const refLastPhotos = refPhotos.orderByKey().endAt(lastKey).limitToLast(this.itemsPerPage + 1)
-      this.$store.dispatch('setTmpMorePhotosRef', refLastPhotos)
-      this.page++
+    getMore () {
+      const _self = this
+      const photosAll = this.$store.state.photosAll
+      if (photosAll.length > 0) {
+        _self.$store.commit('pushPhotos')
+      } else {
+        console.log('load data')
+        const refLastPhotos = refPhotos.limitToLast(105).orderByChild('approved').equalTo(true)
+        _self.$store.dispatch('setPhotosAllRef', refLastPhotos)
+      }
     }
   }
 }

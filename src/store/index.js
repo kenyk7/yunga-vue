@@ -10,8 +10,9 @@ export default new Vuex.Store({
     user: null,
     auth: null,
     itemsPerPage: 21,
+    isMoreItems: true,
     photos: [],
-    tmpMorePhotos: [],
+    photosAll: [],
     myPhotos: []
   },
   getters: {
@@ -25,17 +26,25 @@ export default new Vuex.Store({
     setAuth (state, payload) {
       state.auth = payload
     },
-    pushPhotos (state, payload) {
-      state.photos = state.photos.concat(payload)
+    pushPhotos (state) {
+      const ln = state.photos.length - 1
+      const lastKey = state.photos[ln]['.key']
+      const indexLastKey = state.photosAll.findIndex((item) => item['.key'] === lastKey)
+      const tmpPhotos = state.photosAll.slice(indexLastKey - (state.itemsPerPage * 2 - 1), indexLastKey - (state.itemsPerPage - 1))
+      if (tmpPhotos.length > 0) {
+        state.photos = state.photos.concat(tmpPhotos)
+      } else {
+        state.isMoreItems = false
+      }
     }
   },
   actions: {
     setPhotosRef: firebaseAction(({bindFirebaseRef}, ref) => {
       bindFirebaseRef('photos', ref)
     }),
-    setTmpMorePhotosRef: firebaseAction((context, ref) => {
-      context.bindFirebaseRef('tmpMorePhotos', ref, {readyCallback: function (res) {
-        context.commit('pushPhotos', context.state.tmpMorePhotos)
+    setPhotosAllRef: firebaseAction((context, ref) => {
+      context.bindFirebaseRef('photosAll', ref, {readyCallback: function (res) {
+        context.commit('pushPhotos')
       }})
     }),
     setMyPhotosRef: firebaseAction(({bindFirebaseRef}, ref) => {
