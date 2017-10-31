@@ -13,9 +13,6 @@
           </card-photo>
         </div>
       </transition-group>
-      <div class="has-text-centered is-hidden">
-        <button class="button is-primary" @click="getMore()">Ver más</button>
-      </div>
     </div>
   </section>
 </template>
@@ -29,17 +26,9 @@ export default {
   components: {
     cardPhoto
   },
-  data () {
-    return {
-      page: 0
-    }
-  },
   computed: {
     itemsPerPage () {
       return this.$store.state.itemsPerPage
-    },
-    isMoreItems () {
-      return this.$store.state.isMoreItems
     },
     photos () {
       return this.$store.getters.photos
@@ -57,19 +46,6 @@ export default {
   created () {
     const refLastPhotos = refPhotos.limitToLast(this.itemsPerPage).orderByChild('approved').equalTo(true)
     this.$store.dispatch('setPhotosRef', refLastPhotos)
-  },
-  methods: {
-    getMore () {
-      const _self = this
-      const photosAll = this.$store.state.photosAll
-      if (photosAll.length > 0) {
-        _self.$store.commit('pushPhotos')
-      } else {
-        console.log('load data')
-        const refLastPhotos = refPhotos.limitToLast(105).orderByChild('approved').equalTo(true)
-        _self.$store.dispatch('setPhotosAllRef', refLastPhotos)
-      }
-    }
   }
 }
 </script>
