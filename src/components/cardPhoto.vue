@@ -107,7 +107,7 @@ export default {
               item.photos = {}
             }
             item.photos[keyPhoto] = {
-              thumbnail: _self.photo.data.src
+              thumbnail: _self.photo.data.thumbnail
             }
           }
         }
